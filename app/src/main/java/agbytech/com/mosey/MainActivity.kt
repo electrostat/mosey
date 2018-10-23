@@ -38,14 +38,8 @@ class MainActivity : AppCompatActivity() {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     mosey = Mosey(this)
-                } else {
-
                 }
                 return
-            }
-
-            else -> {
-                // Ignore all other requests.
             }
         }
 

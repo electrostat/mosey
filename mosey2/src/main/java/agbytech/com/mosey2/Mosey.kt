@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.rtt.WifiRttManager
+import android.os.CountDownTimer
+import android.util.Log
 import java.util.logging.Logger
 
 class Mosey {
@@ -28,6 +30,15 @@ class Mosey {
         }
         context.registerReceiver(myReceiver, filter)
 
-        Utils.startWifiScan(context)
+        object : CountDownTimer(30000, 10000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                Utils.startWifiScan(context)
+            }
+
+            override fun onFinish() {
+                Log.e("test", "timer finished")
+            }
+        }.start()
     }
 }

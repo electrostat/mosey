@@ -15,6 +15,8 @@ import android.net.wifi.rtt.WifiRttManager
 import android.util.Log
 import java.util.logging.Logger
 
+
+
 class Utils {
     lateinit var wifiManager: WifiManager
 
@@ -68,6 +70,10 @@ class Utils {
             // consider using old scan results: these are the OLD results!
             val results = wifiManager.scanResults
             Log.e("test", "failure results: $results")
+
+            for(result in results) {
+                val SSID = result.SSID
+            }
         }
 
         @SuppressLint("MissingPermission")
@@ -81,7 +87,23 @@ class Utils {
             mgr.startRanging(request, executor, object : RangingResultCallback() {
 
                 override fun onRangingResults(results: List<RangingResult>) {
-                    Log.e("test", "Ranging Results: $results")
+                    for(result in results) {
+
+                        if (result.status == RangingResult.STATUS_RESPONDER_DOES_NOT_SUPPORT_IEEE80211MC) {
+                            Log.e("test", "responder does not support 802.11mc")
+                        } else {
+                            Log.e("test", "responder supports 802.11mc")
+                        }
+
+                        if (result.status == RangingResult.STATUS_SUCCESS) {
+                            val rssi = result.rssi
+                            val status = result.status
+                            val distance = result.distanceMm
+                            Log.e("test", "result rssi: $rssi")
+                            Log.e("test", "result status: $status")
+                            Log.e("test", "result distance: $distance")
+                        }
+                    }
                 }
 
                 override fun onRangingFailure(code: Int) {
